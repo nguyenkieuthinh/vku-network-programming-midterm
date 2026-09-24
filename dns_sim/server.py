@@ -1,111 +1,99 @@
-import asyncio
-import json
-import os
+#!/usr/bin/env python3
+"""
+Mo phong dich vu DNS Server (May A) bang Python thuan (khong can thu vien ngoai).
+Ho tro truy van loai A (IPv4) qua UDP, dinh dang goi tin DNS chuan (RFC 1035 rut gon).
+"""
 
-HOST = "127.0.0.1"
-PORT = 5353
-RECORDS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "records.json")
+import socket
+import struct
 
+# ---- "Zone data" - co so du lieu DNS gia lap cua May A ----
+DNS_ZONE = {
+    "www.lab.demo.vir": "192.168.100.10",
+    "mail.lab.com.": "192.168.100.15",
+    "ftp.lab.com.": "192.168.100.20",
+}
 
-def load_records():
-    if os.path.exists(RECORDS_FILE):
-        with open(RECORDS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {}
-
-
-def save_records(records):
-    with open(RECORDS_FILE, "w", encoding="utf-8") as f:
-        json.dump(records, f, ensure_ascii=False, indent=2)
-
-
-records = load_records()
+HOST = "0.0.0.0"
+PORT = 9898          # Dung port 5353 de khong can quyen root (port 53 mac dinh can sudo/admin)
+TTL = 300             # Time To Live (giay)
 
 
-def handle_command(line):
-    parts = line.strip().split(maxsplit=2)
-    if not parts:
-        return "400 Empty command"
-
-    cmd = parts[0].upper()
-
-    if cmd == "QUERY":
-        if len(parts) < 2:
-            return "400 Usage: QUERY <ip>"
-        ip = parts[1]
-        domain = records.get(ip)
-        if domain:
-            return f"200 {domain}"
-        return f"404 No domain for {ip}"
-
-    if cmd == "ADD":
-        if len(parts) < 3:
-            return "400 Usage: ADD <ip> <domain>"
-        ip, domain = parts[1], parts[2]
-        records[ip] = domain
-        save_records(records)
-        return f"200 Updated {ip} -> {domain}"
-
-    if cmd == "DEL":
-        if len(parts) < 2:
-            return "400 Usage: DEL <ip>"
-        ip = parts[1]
-        if ip in records:
-            del records[ip]
-            save_records(records)
-            return f"200 Deleted {ip}"
-        return f"404 No record for {ip}"
-
-    if cmd == "LIST":
-        if not records:
-            return "200 0 records"
-        entries = "; ".join(f"{ip} -> {domain}" for ip, domain in records.items())
-        return f"200 {len(records)} records: {entries}"
-
-    if cmd == "QUIT":
-        return "200 Bye"
-
-    return "400 Unknown command"
-
-
-async def handle_client(reader, writer):
-    addr = writer.get_extra_info("peername")
-    print(f"[+] Client connected: {addr}")
-
-    banner = "Welcome to DNS-Sim server. Commands: QUERY <ip>, ADD <ip> <domain>, DEL <ip>, LIST, QUIT"
-    writer.write((banner + "\n").encode())
-    await writer.drain()
-
+def decode_dns_name(data: bytes, offset: int):
+    """Giai ma ten mien tu goi tin DNS (dang labels), tra ve (ten, offset moi)."""
+    labels = []
     while True:
-        data = await reader.readline()
-        if not data:
+        length = data[offset]
+        if length == 0:
+            offset += 1
             break
-
-        line = data.decode(errors="replace").strip()
-        if not line:
-            continue
-
-        print(f"[{addr}] {line}")
-        resp = handle_command(line)
-        writer.write((resp + "\n").encode())
-        await writer.drain()
-
-        if line.upper().startswith("QUIT"):
-            break
-
-    print(f"[-] Client disconnected: {addr}")
-    writer.close()
-    await writer.wait_closed()
+        offset += 1
+        labels.append(data[offset:offset + length].decode())
+        offset += length
+    return ".".join(labels) + "", offset
 
 
-async def main():
-    server = await asyncio.start_server(handle_client, HOST, PORT)
-    print(f"[DNS-Sim Server] Listening on {HOST}:{PORT}")
-    print(f"[DNS-Sim Server] Records loaded: {len(records)} entries")
+def build_response(query: bytes) -> bytes:
+    # ---- Header ----
+    transaction_id = query[:2]
+    qdcount = struct.unpack("!H", query[4:6])[0]
 
-    async with server:
-        await server.serve_forever()
+    # ---- Question section ----
+    qname, offset = decode_dns_name(query, 12)
+    qtype, qclass = struct.unpack("!HH", query[offset:offset + 4])
+    offset += 4
+
+    print(f"[Query] Client hoi ten mien: {qname} (type={qtype})")
+
+    ip = DNS_ZONE.get(qname)
+
+    # ---- Response Header ----
+    flags_response = 0x8180 if ip else 0x8183  # 8180 = No error, 8183 = NXDOMAIN
+    ancount = 1 if ip else 0
+
+    header = transaction_id
+    header += struct.pack("!H", flags_response)
+    header += struct.pack("!H", qdcount)
+    header += struct.pack("!H", ancount)
+    header += struct.pack("!H", 0)  # NSCOUNT
+    header += struct.pack("!H", 0)  # ARCOUNT
+
+    # ---- Question section (echo lai nguyen ven) ----
+    question = query[12:offset]
+
+    # ---- Answer section (neu tim thay trong zone) ----
+    answer = b""
+    if ip:
+        answer += b"\xc0\x0c"            # con tro tro ve ten mien trong Question (offset 12)
+        answer += struct.pack("!H", 1)   # TYPE = A
+        answer += struct.pack("!H", 1)   # CLASS = IN
+        answer += struct.pack("!I", TTL)  # TTL
+        answer += struct.pack("!H", 4)    # RDLENGTH = 4 bytes (IPv4)
+        answer += socket.inet_aton(ip)     # RDATA = dia chi IP
+
+    return header + question + answer
+
+
+def start_server():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind((HOST, PORT))
+    print(f"=== May A: DNS Server dang chay tren {HOST}:{PORT} ===")
+    print("Zone du lieu hien co:")
+    for name, ip in DNS_ZONE.items():
+        print(f"   {name:<20} -> {ip}")
+    print("Dang cho truy van tu client (Ctrl+C de dung)...\n")
+
+    try:
+        while True:
+            data, client_addr = sock.recvfrom(512)
+            response = build_response(data)
+            sock.sendto(response, client_addr)
+            print(f"[Response] Da tra loi cho {client_addr}\n")
+    except KeyboardInterrupt:
+        print("\nDung DNS Server.")
+    finally:
+        sock.close()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    start_server()
