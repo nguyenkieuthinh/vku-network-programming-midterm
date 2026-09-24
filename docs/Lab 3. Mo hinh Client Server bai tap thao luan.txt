@@ -1,0 +1,10 @@
+﻿2 hoặc 3 SV lập thành một nhóm để thảo luận cách xây dựng ứng dụng client/server; P2P; Phân tán  nào đó có trên hực tế  với các yêu cầu:
+Sơ đồ hoạt động
+Các chức năng phía server
+Các chức năng phía client
+Các tình huống
+Các thuật toán
+Cách tổ chức và quản lý dữ liệu
+cụ thể Client/Server: web, ftp, mail,...
+mô hình p2p: sky,zalo, messenger,...
+Mô hình phân tấn: mạng ngân hàng; mạng giao thông hàng không;...  

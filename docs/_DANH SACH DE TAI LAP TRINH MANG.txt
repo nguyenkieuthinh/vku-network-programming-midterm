@@ -1,0 +1,598 @@
+DANH SÁCH ĐỀ TÀI ĐỒ ÁN LẬP TRÌNH MẠNG
+Đề số 1.
+1. Đề bài:
+Tìm hiểu và xây dựng chương trình HTTP server đơn giản
+2. Yêu cầu:
+Xây dựng chi tiết cho server trên bao gồm:
+1. Giải thuật giao tiếp với các web client theo giao thức HTTP
+2. Hỗ trợ các chức năng Authenticate, Cookies, Conditional GET
+3. Xây dựng công cụ cấu hình cho server để chạy hoặc dừng server, cấu hình
+các thông số
+port, đường dẫn đến file hệ thống file của HTTP server
+4. Cho phép người quản trị xem thông tin kết nối hiện thời của các client,
+số lượng client,
+địa chỉ IP và chỉ số port của client.
+3. Ngôn ngữ lập trình & môi trường hiện thực:
+Ngôn ngữ : Java, C&C++, .NET..
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 2.
+1. Đề bài:
+
+Xây dựng chương trình cho phép chơi bài tiến lên qua mạng.
+2. Yêu cầu:
+
+1. Chương trình client là chương trình đồ họa. Màn hình của một người chơi
+được chia thành 2 phần. Các lá bài chưa được đánh của người đánh hiện tại
+được hiển thị bên dưới màn hình. Các lá bài đã đánh của tất cả người chơi được
+hiển thị phần trên màn hình.
+2. Cho phép khai báo số người tham gia chơi (Từ 2 đến 4 người)
+3. Các lá bài được chia một cách tự động.
+3. Thứ tự người đánh được thiết lập ngẫu nhiên. Người chơi sẽ được màn hình
+cảnh báo nếu như đến lượt đánh.
+3. Ngôn ngữ lập trình & môi trường hiện thực:
+Ngôn ngữ : Java, C&C++, .NET..
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 3.
+1. Mô tả bài toán:
+Cho topology mạng với cấu hình như dưới đây. Các máy S1, S2, S3 cùng
+chứa tệp config.dat.
+
+-1-
+
+S1
+X kbps
+S2
+
+Y kbps
+
+S3
+
+10 Mbps
+
+C1
+
+Z kbps
+
+Thiết kế giao thức và viết chương trình máy chủ cài trên máy S1, S2, S3 và
+chương trình máy khách cài trên máy C1 để có thể download tệp config.dat từ
+nhiều máy chủ S1, S2, S3 cùng một lúc. Yêu cầu: File download về không bị
+lỗi
+2. Môi trường làm việc
+Máy chủ:
+- Hệ điều hành: Linux
+- Ngôn ngữ lập trình : C, C++
+Máy khách:
+- Hệ điều hành: Linux, windows XP, windows Vista
+- Ngôn ngữ lập trình : C, C++, Java
+Tệp:
+- Lưu tại 3 máy chủ: S1, S2, S3
+- Tên: config.dat
+- Kích thước: khoảng 10MByte,
+- Sử dụng hàm băm để xác nhận toàn vẹn file
+3. Cấu hình mạng
+-
+
+Băng thông giữa các máy chủ và router R không được biết trước (nằm
+trong khoảng 100kbps ~ 1000kbps)
+
+-
+
+Băng thông giữa router R và máy khách C1 là 10Mbps
+
+-
+
+Liên kết giữa máy chủ và router R có tỷ lệ mất mát gói tin không được
+biết trước.
+
+Đề số 4.
+1. Đề bài:
+Xây dựng chương trình giám sát mạng LAN
+-2-
+
+2. Yêu cầu:
+1. Giống cơ chế hoạt động của Remote Desktop.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 5.
+1. Đề bài:
+
+Xây dựng chương trình hiển thị thời gian (đồng hồ)
+2. Yêu cầu:
+
+1. Chương trình Client đồ họa một đồng hồ, cho phép người dùng chọn quốc gia.
+2. Chương trình Server tính và gửi trả thời gian về cho client.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 6.
+1. Đề bài:
+
+Xây dựng hiển thị dự báo thời tiết.
+2. Yêu cầu:
+
+1. Chương trình Client biểu diễn thông tin dự báo thời tiết, cho phép người
+dùng chọn vùng để xem.
+2. Chương trình Server phân tích và thông tin dự báo thời tiết ở một số trang
+Web để trả về cho client.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 7
+1. Đề bài:
+Xây dựng một trình duyệt Web đơn giản.
+2. Yêu cầu:
+Chương trình có thể cho phép người dùng gõ URL của trang Web và có thể
+duyệt được một số tag HTML.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+
+-3-
+
+Đề số 8.
+1. Đề bài:
+Viết một hệ thống theo mô hình đa server cho phép truy xuất cơ sở dữ liệu lớn.
+2. Yêu cầu:
+- Triển khai 4 Server và cơ sở dữ liệu.
+- Chương trình client cho phép thực hiện truy xuất và cập nhật.
+- Các chương trình Server phải xử lý cân bằng tải trọng giữa các Server và
+xử lý sự đồng bộ dữ liệu.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 9.
+1. Đề bài:
+Nghiên cứu và mô phỏng quá trình làm việc của hai Server ngang hàng theo giao
+thức TCP/IP.
+2. Yêu cầu:
+- Viết chương trình mô phỏng quá trình trao đổi của hai Server.
+-
+
+Lập Monitoring để giám sát các thông điệp đến.
+
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 10.
+1. Đề bài:
+Tìm hiểu công nghệ Voice IP và xây dựng chương trình chat voice.
+2. Yêu cầu:
+- Tương tự chương trình Skype – theo mô hình P2P.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 11.
+1. Đề bài:
+Tìm hiểu xây dựng chương trình hội thảo từ xa.
+2. Yêu cầu:
+- Chương trình này cho phép truyền video và âm thanh.
+-4-
+
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 12.
+1. Đề bài:
+Tìm hiểu xây dựng chương trình điều khiển màn hình từ xa.
+2. Yêu cầu:
+- Tương tự chương trình Remote Desktop hoặc TeamViewer.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 13.
+1. Đề bài:
+Viết chương trình tương tự lệnh ping trong các hệ điều hành.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 14.
+1. Đề bài:
+Viết chương trình tương tự lệnh host trong Linux.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 15.
+1. Đề bài:
+Viết chương trình tương tự lệnh traceroute trong Linux.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+
+-5-
+
+Đề số 16.
+1. Đề bài:
+Viết chương trình tương tự lệnh ipconfig trong Windows 7.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 17.
+1. Đề bài:
+Viết chương trình tương tự lệnh Nbtstat trong Windows 7.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 18.
+1. Đề bài:
+Viết chương trình tương tự lệnh Net trong Windows 7.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 19.
+1. Đề bài:
+Viết chương trình tương tự lệnh Nslookup trong Windows 7.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 20.
+1. Đề bài:
+Viết chương trình chia sẽ file qua mạng p2p.
+2. Yêu cầu:
+- Tương tự chương trình P2P file sharing.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+
+-6-
+
+Đề số 21.
+1. Đề bài:
+Viết chương trình tương tự chương trình telnet.
+2. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 22.
+1. Đề bài:
+Viết chương trình cho phép login vào một ứng dụng từ xa.
+2. Yêu cầu:
+- Tham khảo và xây dựng tương tự lệnh SSH trong hệ điều hành linux.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 23.
+1. Đề bài:
+Xây dựng chương trình giả lập dịch vụ DNS.
+2. Yêu cầu:
+- Tìm hiểu dịch vụ DNS và xây dựng tương tự
+o Viết chương trình client cho phép truy vấn tên miền của một địa chỉ IP.
+o Viết chương trình server DNS cho phép cập nhật và trả lại tên miền
+cho client.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 24.
+1. Đề bài:
+Xây dựng chương trình chia sẽ máy in qua mạng.
+2. Yêu cầu:
+- Chương trình client yêu cầu in ấn.
+-
+
+Chương trình server quản lý và ra lệnh cho máy in.
+
+3. Môi trường hiện thực:
+-7-
+
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 25.
+1. Đề bài:
+Xây dựng chương trình quản lý các kết nối trong mạng cục bộ.
+2. Yêu cầu:
+- Chương trình hiển thị và biểu diễn thông tin tất cả các kết nối của các hệ
+thống trong một mạng.
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 26.
+1. Đề bài:
+Lập trình một chương trình chat room sử dụng TCP socket.
+2. Yêu cầu:
+Client có giao diện đơn giản hay phức tạp tùy vào bạn.
+Chat Server là một server có khả năng quản lý nhiều clients của chat room.
+Mỗi thông điệp từ một client gửi đến server, server phải có nhiệm vụ gửi đến tất cả
+các client còn lài, và tất cả client đều hiển thị thông điệp đó lên màn hình.
+Server nên dùng một Vector để lưu trử tất cả các tiến trình clients. Nhờ Vector này
+mà nó có thể quản lý và truyền thông điệp đến tất cả các clients trong chat room
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 28.
+1. Đề bài:
+Xây dựng chương trình giả lập dịch vụ DHCP.
+2. Yêu cầu:
+- Tìm hiểu dịch vụ DHCP và xây dựng tương tự
+3. Môi trường hiện thực:
+Ngôn ngữ lập trình: Java, C#, …
+Môi trường: Solaris, Linux, Windows 95/98/NT/2000/XP.
+Đề số 29. Tìm hiểu giao thức VNC. Xây dựng hệ thống giám sát và điều khiển từ xa.
+Đề số 30. Tìm hiểu công nghệ Voice IP và xây dựng ứng dụng hội thoại trực tuyến
+Đề số 31. Nghiên cứu ứng dụng công nghệ Wap. Mô phỏng hệ thống Wapmail
+-8-
+
+Đề số 32. Mô phỏng cách thức hoạt động của hệ thống thư điện tử
+Đề số 33. Tìm hiểu giao thức FTP. Mô phỏng hệ thống truyền file FTP
+Đề số 34.Mô phỏng chương trình lọc gói tin IP
+Đề số 35. Xây dựng chương trình RMI gồm Client, Server sử dụng các kỹ thuật truy
+cập CSDL
+và kỹ thuật gọi ngược, trong đó :
+-
+
+Các Client đăng nhập vào Server theo tài khoản
+
+-
+
+Server lưu chỉ số ID của các Client
+
+-
+
+Server phân chia công việc xử lý cho các Client có tên trong danh sách đã
+đăng ký
+
+-
+
+Client xử lý và trả kết quả về Server
+
+-
+
+Server tổng hợp và hiển thị kết quả.
+
+Đề số 38. Chương trình hội thoại Client/Server hoạt động theo giao thức TCP/IP
+-
+
+Chương trình Server mở cổng chờ nhận kết nối từ Client.
+
+-
+
+Chương trình Client kết nối và thực hiện ra các lệnh : S : gởi dữ liệu đến máy
+Server, R : nhận dữ liệu từ máy Server, Q : Thoát.
+
+Đề số 39. Chương trình hội thoại Client/Server hoạt động theo giao thức UDP/IP
+-
+
+Chương trình Client kết nối và gởi một xâu ký tự đến Server
+
+-
+
+Chương trình Server nhận các gói tin gởi đến từ Client và gởi trả về lại Client
+
+Đề số 41. Xây dựng chương trình giám sát mạng LAN trong môi trường Windows dựa
+trên giao thức TCP/IP
+Đề số 42. Viết chương trình cài đặt thuật toán Lamport trên n Server, n>3.
+a. Xây dựng đa Server theo kiểu ngang hàng có khả năng phát và nhận thông
+điệp.
+b. Xây dựng cấu trúc các loại thông điệp trao đổi giữa các Server.
+c. Xây dựng chương trình sắp xếp các thông điệp đến căn cứ vào giá trị của đồng
+hồ Lamport.
+d. Xây dựng chương trình quan sát trình tự sắp xếp tại các Server trên màn hình.
+Đề số 43. Mô phỏng quá trình làm việc của hai Server ngang hàng trên mạng TCP/IP
+a. Nghiêm cứu cấu trúc thông điệp, triệu gọi từ xa qua mạng IP
+b. Viết chương trình trao đổi thông điệp của hai Server.
+c. Lập Monitoring để giám sát các thông điệp đến.
+-9-
+
+Đề số 44. Lập trình phân tán cho bài toán bãi đỗ xe
+a. Phân tích bài toán bãi đỗ xe ở mức có thể lập trình được
+b. Tìm hiểu đặc điểm của hệ phân tán
+c. Hiện lên màn hình dòng xe vào, xe ra tại mỗi cổng bảo vệ
+Đề số 45. Giả sử rằng ta có hệ thống CSDL phối hợp với một hoạt động được gọi từ xa
+nhằm phục vụ cho việc cập nhật hay tra cứu thông tin cần thiết. Hãy viết chương trình
+trên ngôn ngữ Java cho phép cập nhật CSDL có kiểm tra tính gắn bó
+a. Đây là hệ đơn Server, có thể hoạt động theo mô hình Client/Server thường
+gặp
+b. Viết chương trình kiểu đa truy cập, ngẫu nhiên, từ xa với số lượng truy cập
+lớn
+c. Xây dựng Monitoring để Manager hệ thống có thể kiểm tra và điều khiển quá
+trình thực hiện
+Đề số 46. Hãy viết chương trình tính toán giá trị đồng hồ lôgíc tại mỗi Server
+a. Xây dựng hệ thống 3 Server thể hiện khả năng phát/nhận thông điệp
+b. Xây dựng chương trình tính toán giá trị đồng hồ cho Server phát và giá trị cho
+Server nhận.
+Đề số 47. Viết chương trình cài đặt thuật toán sắp xếp theo kiểu đóng dấu.
+a. Nghiên cứu bản chất của phương pháp đóng dấu vào thông điệp trước khi gửi
+đi cho tất cả các Server.
+b. Xây dựng chương trình quan sát trường dấu trong hàng đợi các thông điệp tại
+các Server nhận.
+Đề số 48. Viết chương trình đảm bảo gắn bó dữ liệu khi cập nhật trong các cơ sở dữ
+liệu tập trung tại các ngân hàng.
+a. Phân tích bài toán ngân hàng chạy mạng: Giả sử đa truy cập ngẫu nhiên với số
+lượng vào một Server duy nhất và tập trung.
+b. Viết chương trình cho phép nhiều cập nhật từ Client vào một Server.
+c. Giới hạn hoạt động trên phép toán cộng và trừ tài khoản.
+Đề số 49. Viết chương trình đảm bảo chống trùng vé tàu hỏa khi phân tán chức năng
+bán vé cho các ga trong hệ thống đường sắt.
+a. Hệ thống bán vé làm việc theo kiểu tập trung.
+b. Hệ này là hệ đa truy cập ngẫu nhiên với số lượng lớn vào một Server duy nhất.
+
+- 10
+-
+
+c. Giới hạn ở phép bán vé và đánh dấu vào cơ sở dữ liệu.
+Đề số 50. Viết chương trình cho hệ đa Server với cơ sở dữ liệu gắn bó cho phép đăng
+kí tua du lịch từ xa với phương án lý tưởng
+a. Xây dựng hệ thống 3 Server và cơ sở dữ liệu
+b. Xây dựng chương trình Client thực hiện đăng kí trong điều kiện đảm bảo gắn
+bó thông tin ( chú ý : “chống trùng”)
+Đề số 51. Lập trình bằng Java cho phép triệu gọi các chương trình ở xa thực hiện tính
+toán đồng thời
+a. Xây dựng các Agent tính toán
+b. Gửi Agent đến các Server khác nhau
+c. Gọi thực hiện từ xa các Agent này để tính toán song song một vấn đề xác định
+trước
+d. Nhận các kết quả trung gian từ Agent và tập hợp thành các kết quả cuối cùng
+Đề số 52. Viết chương trình thể hiện quá trình yêu cầu và đáp ứng yêu cầu của hệ phân
+tán
+a. Xây dựng hệ đa Server
+b. Sử dụng thuật toán lồng mở (Open Nesed) để truy vấn thông tin nhiều mức
+c. Viết chương trình Client để thể hiện thông tin truy vấn
+Đề số 53. Viết chương trình cài đặt thuật toán phân bố tải của mạng IP trong quá trình
+định tuyến các gói tin
+a. Tìm hiểu quá trình định tuyến trong mạng TCP/IP và chọn một trong hai
+phương pháp : tĩnh và động
+b. Mô phỏng quá trình chuyển gói giữa một số Server
+c. Lập chương trình Monitoring để giám sát đường di chuyển của các gói tin
+Đề số 54. Hãy viết chương trình mô phỏng quá trình họat động của ba loại thông điệp
+REQ, REL, ACQ trong hệ tin học phân tán. (Xây dựng hệ thống ba Server thể hiện khả
+năng phát nhận thông điệp).
+Đề số 55. Viết chương trình tính toán giá trị đồng hồ logic tại mỗi Server.
+a. Xây dựng hệ thống ba Server thể hiện khả năng phát nhận thông điệp.
+b. Xây dựng chương trình tính tóan giá trị đồng hồ cho Server phát và giá trị cho
+Server nhận.
+
+- 11
+-
+
+c. Gắn giá trị đó vào trường của thông điệp và gửi đến tất cả các Server còn lại
+của hệ.
+Đề số 56. Giả sử ta có hệ thống cơ sở dữ liệu phối hợp với một họat động được gọi từ
+xa nhằm phục vụ cho việc cập nhật hay tra cứu thông trin cần thiết. Viết chương trình
+cho phép cập nhật cơ sở dữ liệu có kiểm tra tính gắn bó.
+a. Đây là hệ đơn Server có thể họat động theo mô hình Client/Server thường gặp.
+b. Viết chương trình kiểu đa truy cập ngẫu nhiên, từ xa với số lượng truy cập lớn.
+c. Xây dựng Monitoring để hệ thống có thể kiểm tra và điều khiển quá trình thực hiện.
+Đề số 57. Tìm hiểu kỹ thuât Streaming
+- Tìm hiểu HTTP Live Streaming
+- Tạo server video streaming
+- Chuyển đổi video thường sang dạng Streaming
+- Cài đặt Web Server để streaming
+Đề số 58. Tìm hiểu cách thức hoạt động của Broadcast Live Video with WebRTC bằng
+công nghệ WebRTC.
+Đề số 59. Tìm hiểu cách thức hoạt động của Media Server Red5, xây dựng hiện thực.
+Đề số 60. Tìm hiểu cơ chế whiteboard p2p bằng WebRTC.
+Đề số 61. Tìm hiểu cơ chế screen sharing p2p bằng WebRTC.
+Đề số 62. Tìm hiểu cơ chế audio/video conferencing bằng WebRTC.
+Đề số 63. Tìm hiểu cơ chế file sharing bằng WebRTC.
+Đề số 64. Tìm hiểu cơ chế Scalable Audio/Video Broadcast.
+Đề số 65. Tìm hiểu Media Server: Kurento Media Server (KMS) .
+Đề số 66. Tìm hiểu VoIP Call Center.
+Đề số 67. Ứng dụng các giao thức ICMP và SNMP phát triển tiện ích dò quét cổng
+
+và địa chỉ IP
+Đề số 68. Ứng dụng giao thức TFTP phát triển tiện ích TFTP Server.
+Đề số 69. Phát triển tiện ích chặn bắt gói gói tin dựa trên IP Header.
+Đề số 70. Phát triển tiện ích cung ứng 2 dịch vụ DNS và DHCP.
+Đề số 71. Phát triển tiện ích đo lưu lượng mạng theo thời gian thực.
+Đề số 72. Phát triển tiện ích lọc gói tin dựa trên IP Header.
+
+- 12
+-
+
+Đề số 73. Ứng dụng giao thức SNMP phát triển tiện ích xác định trạng thái cổng trên
+Switch.
+Đề số 74. Ứng dụng các giao thức FTP, FTPS và SFTP phát triển tiện ích FTP
+Server/FTP Client
+Đề số 75. Phát triển tiện ích quản trị từ xa
+Đề số 76. Ứng dụng SNMP phát triển tiện ích giám sát mạng
+Đề số 77. Ứng dụng SIP phát triển tiện ích VoIP
+Đề số 78. Phát triển tiện ích truyền nhận tập tin dựa trên Bluetooth
+Đề số 79. Ứng dụng SMTP và POP3 phát triển tiện ích máy chủ thư điện tử
+Đề số 80. Phát triển tiện ích kiểm tra khả năng chịu tải của mạng
+Đề số 81. Ứng dụng RTP phát triển tiện ích chia sẻ tập tin multimedia
+Đề số 82. Ứng dụng Bluetooth phát triển tiện ích điều khiển máy tính từ xa
+Đề tài 83. Tìm hiểu và xây dựng chương trình thực hiện các giải thuật mã hóa.
+Nội dung:
+- Tìm hiểu các giải thuật mã hóa RSA, MD5, DES, ...
+- Xây dựng chương trình minh họa
+Đề tài 84. Xây dựng chương ứng dụng quản lý triển khai trên hệ thống mạng.
+Nội dung:
+- Tìm hiểu kỹ thuật lập trình truy xuất CSDL trên mạng
+- Cách lập trình quản lý user, group người dùng
+- Xây dựng chương trình minh họa
+Đề tài 85.
+Xây dựng chương trình bắt và hiển thị thông tin gói tin trên mạng
+Nội dung:
+- Tìm hiểu họ giao thức mạng TCP/IP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 86. Xây dựng chương trình FTP server
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, FTP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 87. Xây dựng chương trình FTP client
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, FTP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+- 13
+-
+
+Đề tài 88. Xây dựng chương trình Web Server
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, HTTP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 89. Xây dựng chương trình Web Client
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, HTTP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+Đề tài 90. Xây dựng chương trình Mail Server
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, POP3, IMAP, SMTP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 91 Xây dựng chương trình Mail Client
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, POP3, IMAP, SMTP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 92. Xây dựng chương trình quản lý thông tin mạng dựa trên giao thức SNMP
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, SNMP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 93. Lập trình trao đổi và quản lý gói tin ICMP
+Nội dung:
+- Tìm hiểu giao thức mạng TCP/IP, ICMP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Đề tài 94.
+Lập trình phát triển dịch vụ Grid sử dụng môi trường lập trình tích hợp Eclipse.
+Tham khảo:
+[1]. http://www.datamininggrid.org/wdat/works/att/ljudoc005.content.05301.pdf
+Đề tài 95.
+Xây dựng chương trình Trojan thực hiện lây lan trên mạng
+Đề tài 96.
+Kỹ thuật tấn công cross-site scripting, SQL injection trên mạng
+Đề tài 97.
+Cơ chế sử dụng chữ ký điện tử trong giao dịch eMail và mã hóa dữ liệu
+Đề tài 98.
+Xây dựng chương trình mô phỏng công cụ tấn công DOS, DDOS
+Đề tài 99.
+Xây dựng chương trình Network Sniffer Nội dung:
+- 14
+-
+
+- Tìm hiểu họ giao thức mạng TCP/IP
+- Các thư viện hỗ trợ lập trình mạng
+- Xây dựng chương trình minh họa
+
+Tham khảo:
+[1]. http://www.codeproject.com/KB/applications/Sniffer.aspx
+Đề tài 100. Xây dựng chương trình trao đổi thông tin mạng dựa trên giao thức IPv6
+Đề tài 101. Tìm hiểu thư viện OPEN SSL và triển khai ứng dụng
+Đề tài 102. Lập trình mạng khai thác thư viện Goodle Earth
+Đề tài 103. Tìm hiểu và triển khai công cụ Open Cirrus
+Đề tài 104. Xây dựng chương trình quản lý trao đổi thông tin với WebServer
+Tham khảo:
+[1]. http://www.codeproject.com/KB/IP/WinInetTest.aspx
+Đề tài 105. Xây dựng chương trình phân tích và kiểm tra độ an toàn của WebSite
+Tham khảo:
+[1]. http://www.codeproject.com/KB/websecurity/ServerSecurityCheck.aspx
+Đề tài 106. Tìm hiểu và xây dựng chương trình phát hiện xâm nhập mạng IDS
+Tham khảo:
+[1]. http://www.codeproject.com/KB/IP/FwHookDrv.aspx
+[2]. http://www.codeproject.com/KB/IP/drvfltip.aspx
+
+- 15
+-
+
+

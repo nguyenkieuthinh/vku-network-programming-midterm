@@ -1,0 +1,67 @@
+38. Chương trình hội thoại Client/Server hoạt động theo giao thức TCP/IP
+Sử dụng giao thức TCP để xây dựng chương trình chat theo mô hình client-server (26)
+Xây dựng hệ thống Chat sử dụng giao thức UDP/TCP theo mô hình Client/Server
+
+Sử dụng giao thức TCP Socket và mô hình Client/Server để phát triển ứng dụng điều khiển màn hình từ xa (12)
+
+Sử dụng giao thức TCP Socket và mô hình Client/Server để phát triển chương trình hiển thị thời gian đồng hồ (5)
+
+Sử dụng mô hình Client-Server, giao thức TCP socket xây dựng chương trình quản lý các kết nối trong mạng cục bộ
+
+Sử dụng giao thức SMTP, POP3 và mô hình Client – Server để phát triển ứng dụng Mail Client (91)
+
+Sử dụng giao thức TCP, FTP và mô hình Client–Server để phát triển ứng dụng FTP client và FTP server.(33)
+
+
+"
+"
+Sử dụng giao thức UDP, RTP và mô hình Client-Server để phát triển ứng dụng RTP client và RTP server
+
+
+Xây dựng hệ thống giám sát và điều khiển từ xa máy tính trong mạng LAN sử dụng TCP, UDP và HTTP theo mô hình Client/Server
+Xây dựng hệ thống giám sát và điều khiển từ xa máy tính trong mạng LAN sử dụng TCP, UDP và HTTP theo mô hình Client/Server
+"Sử dụng giao thức TCP Socket và mô hình Client/Server để phát triển ứng dụng Chat Room 
+"
+
+Sử dụng giao thức TCP/IP và mô hình Client/Server để phát triển hệ thống quản lý và chia sẻ máy in qua mạng
+
+
+
+Sử dụng giao thức HLS để xây dựng hệ thống web video streaming trực tuyến theo mô hình Client - Server
+
+Sử dụng công nghệ Java RMI trên nền giao thức TCP/IP theo mô hình Client-Server để phát triển ứng dụng chuyển đổi định dạng tệp tin(35)
+
+ 
+
+38.Xây dựng hệ thống hội thoại trực tuyến theo mô hình Client-Server sử dụng TCP/IP. 
+
+
+Xây dựng hệ thống Chat Room  sử dụng giao thức TCP Socket theo mô hình Client–Server
+
+
+Sử dụng giao thức HTTP và mô hình Client–Server để xây dựng Web Server và phát triển ứng dụng website bán quần áo
+
+
+Xây dựng chương trình điều khiển màn hình từ xa sử dụng TCP theo mô hình Client–Server
+Xây dựng chương trình điều khiển màn hình từ xa sử dụng TCP theo mô hình Client–Server
+
+Sử dụng giao thức FTP để xây dựng ứng dụng truyền nhận tập tin theo mô hình Client - Server (87)
+
+
+Sử dụng TCP socket và mô hình Client–Server để phát triển ứng dụng TCP server và TCP client
+
+
+Xây dựng chương trình mô phỏng Traceroute
+
+Xây dựng hệ thống phân phối và tải dữ liệu song song từ nhiều máy chủ theo mô hình Client-Sever và giao thức TCP
+
+Xây dựng ứng dụng Chatbot / Trò chuyện nhóm qua mạng sử dụng TCP theo mô hình Client–Server
+Xây dựng ứng dụng Chatbot / Trò chuyện nhóm qua mạng sử dụng TCP theo mô hình Client–Server 
+Xây dựng hệ thống client - server điều khiển AI Agent từ thiết bị di động sử dụng WebSocket và MCP
+
+
+
+
+Sử dụng giao thức WebRTC, WebSocket và mô hình SFU để phát triển ứng dụng Chat và Gọi video nhóm thời gian thực.
+
+
