@@ -18,5 +18,8 @@ ftp.lab.com     192.168.100.20
 # tên_miền              IP
 myname.test.dns.vku    10.147.18.200
 www.dns.vku.            10.147.18.200
-mail.dns.vku.           10.147.18.201test.dns.vku.                  10.147.18.200
+mail.dns.vku.           10.147.18.201
 test.dns.vku.                  10.147.18.200
+abc.dns.vku.                   10.147.18.224
+hung.dns.vku.                  10.147.18.224
+thinh.dns.vku.                 10.147.18.224

@@ -22,3 +22,6 @@ shop.lab.com    192.168.100.10
 # Cac dich vu khac (vi du)
 mail.lab.com    192.168.100.15
 ftp.lab.com     192.168.100.20
+
+
+bash ping.sh abc.dns.vku 10.147.18.200

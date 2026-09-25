@@ -1,1 +1,0 @@
-myname.test.dns.vku.           127.0.0.1

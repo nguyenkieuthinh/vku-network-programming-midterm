@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-dns_client_gui.py - Giao dien do hoa (Tkinter) cho May C.
+============================================================================
+ dns_client_gui.py - GUI DNS Client (Máy C)
+============================================================================
+ - Nhập tên miền, IP server, port
+ - Bấm Tra cứu (hoặc Enter) → gửi query UDP
+ - Hiển thị IP kết quả nổi bật
+ - Log chi tiết + thời gian phản hồi
 
-Cho phep nguoi dung nhap ten mien, IP/port cua DNS Server (May A),
-bam nut de gui truy van UDP tho (tu dong dong goi/giai goi tin DNS,
-khong dung thu vien ngoai) va xem ket qua/log ngay tren giao dien.
-
-Chay:
-    python3 dns_client_gui.py
+ Chạy:
+   python3 dns_client_gui.py
+============================================================================
 """
 
 import socket
@@ -17,145 +20,183 @@ import random
 import threading
 import time
 import tkinter as tk
+import tkinter.font as tkfont
 from tkinter import ttk, messagebox
 
 
 # ============================================================================
-# LOGIC DONG GOI / GIAI GOI TIN DNS (giu nguyen tu ban client dong lenh)
+# 1. ĐÓNG GÓI / GIẢI GÓI DNS
 # ============================================================================
 
 def build_query(domain: str) -> bytes:
-    transaction_id = struct.pack("!H", random.randint(0, 65535))
-    flags = struct.pack("!H", 0x0100)     # Recursion Desired
-    qdcount = struct.pack("!H", 1)
-    ancount = struct.pack("!H", 0)
-    nscount = struct.pack("!H", 0)
-    arcount = struct.pack("!H", 0)
-    header = transaction_id + flags + qdcount + ancount + nscount + arcount
+    """
+    Tạo gói DNS query loại A (IPv4).
+    Cấu trúc: Header(12) + QNAME + QTYPE(2) + QCLASS(2)
+    """
+    # --- Header ---
+    tid    = struct.pack("!H", random.randint(0, 65535))   # Transaction ID
+    flags  = struct.pack("!H", 0x0100)                     # RD=1 (đệ quy)
+    counts = struct.pack("!HHHH", 1, 0, 0, 0)              # QD=1, AN=NS=AR=0
+    header = tid + flags + counts
 
+    # --- QNAME: chia "abc.dns.vku" thành labels ---
     qname = b"".join(
-        struct.pack("B", len(part)) + part.encode()
-        for part in domain.strip(".").split(".")
+        struct.pack("B", len(p)) + p.encode()
+        for p in domain.strip(".").split(".")
     ) + b"\x00"
-    qtype = struct.pack("!H", 1)   # A record
-    qclass = struct.pack("!H", 1)  # IN
+
+    # --- QTYPE=A, QCLASS=IN ---
+    qtype  = struct.pack("!H", 1)
+    qclass = struct.pack("!H", 1)
 
     return header + qname + qtype + qclass
 
 
 def parse_response(data: bytes):
+    """
+    Giải gói DNS response, trả về IP hoặc None.
+    Bỏ qua phần Header + Question, đọc bản ghi A đầu tiên.
+    """
     ancount = struct.unpack("!H", data[6:8])[0]
     if ancount == 0:
-        return None
+        return None                            # NXDOMAIN
 
-    # Bo qua Question section de tim vi tri bat dau Answer section
-    offset = 12
-    while data[offset] != 0:
-        offset += data[offset] + 1
-    offset += 1 + 2 + 2  # byte 0 + QTYPE(2) + QCLASS(2)
+    # Nhảy qua Question section
+    off = 12
+    while data[off] != 0:
+        off += data[off] + 1
+    off += 1 + 2 + 2                            # +null +QTYPE +QCLASS
 
-    # Answer: NAME(2, con tro) + TYPE(2) + CLASS(2) + TTL(4) + RDLENGTH(2) + RDATA
-    offset += 2 + 2 + 2 + 4
-    rdlength = struct.unpack("!H", data[offset:offset + 2])[0]
-    offset += 2
-    ip_bytes = data[offset:offset + rdlength]
-
-    return socket.inet_ntoa(ip_bytes)
+    # Đọc Answer section
+    off += 2                                    # NAME (compression pointer)
+    off += 2 + 2 + 4                            # TYPE + CLASS + TTL
+    rdlength = struct.unpack("!H", data[off:off+2])[0]
+    off += 2
+    return socket.inet_ntoa(data[off:off+rdlength])
 
 
 # ============================================================================
-# GIAO DIEN TKINTER
+# 2. GUI
 # ============================================================================
 
 class DnsClientGUI:
+
+    # -------- Cấu hình mặc định --------
+    DEFAULT_DOMAIN  = "myname.test.dns.vku"
+    DEFAULT_IP      = "10.147.18.200"
+    DEFAULT_PORT    = "9898"
+    DEFAULT_TIMEOUT = "3"
+
     def __init__(self, root):
         self.root = root
-        root.title("May C - DNS Client")
-        self._set_window_to_screen_fraction(root, fraction=0.75)
-        root.minsize(560, 420)
+        root.title("Máy C — DNS Client")
+        self._set_window_fraction(root, 0.55)
+        root.minsize(560, 480)
 
-        pad = {"padx": 8, "pady": 6}
+        # ---- Style ----
+        style = ttk.Style()
+        try:
+            style.theme_use("clam")
+        except tk.TclError:
+            pass
 
-        # --- Khung nhap thong tin ---
-        form = ttk.Frame(root)
-        form.pack(fill="x", **pad)
-
-        ttk.Label(form, text="Ten mien:").grid(row=0, column=0, sticky="w")
-        self.domain_var = tk.StringVar(value="abc.dns.vku")
-        ttk.Entry(form, textvariable=self.domain_var, width=30).grid(
-            row=0, column=1, sticky="we", padx=(4, 20)
-        )
-
-        ttk.Label(form, text="IP May A:").grid(row=0, column=2, sticky="w")
-        self.ip_var = tk.StringVar(value="127.0.0.1")
-        ttk.Entry(form, textvariable=self.ip_var, width=16).grid(
-            row=0, column=3, sticky="we", padx=4
-        )
-
-        ttk.Label(form, text="Port:").grid(row=1, column=2, sticky="w", pady=(6, 0))
-        self.port_var = tk.StringVar(value="9898")
-        ttk.Entry(form, textvariable=self.port_var, width=8).grid(
-            row=1, column=3, sticky="w", padx=4, pady=(6, 0)
-        )
-
-        ttk.Label(form, text="Timeout (s):").grid(row=1, column=0, sticky="w", pady=(6, 0))
-        self.timeout_var = tk.StringVar(value="3")
-        ttk.Entry(form, textvariable=self.timeout_var, width=10).grid(
-            row=1, column=1, sticky="w", padx=4, pady=(6, 0)
-        )
-
+        # ---- Phần nhập liệu ----
+        form = ttk.LabelFrame(root, text="Thông tin truy vấn", padding=10)
+        form.pack(fill="x", padx=10, pady=(10, 5))
         form.columnconfigure(1, weight=1)
+        form.columnconfigure(3, weight=1)
 
-        # --- Nut hanh dong ---
-        btn_frame = ttk.Frame(root)
-        btn_frame.pack(fill="x", padx=8, pady=(0, 6))
+        # Tên miền
+        ttk.Label(form, text="Tên miền:").grid(row=0, column=0, sticky="w", padx=4)
+        self.domain_var = tk.StringVar(value=self.DEFAULT_DOMAIN)
+        e = ttk.Entry(form, textvariable=self.domain_var, font=("Arial", 11))
+        e.grid(row=0, column=1, columnspan=3, sticky="we", padx=4, pady=4)
 
-        self.send_btn = ttk.Button(btn_frame, text="Gui truy van", command=self.on_send)
-        self.send_btn.pack(side="left")
+        # IP server
+        ttk.Label(form, text="IP Server:").grid(row=1, column=0, sticky="w", padx=4)
+        self.ip_var = tk.StringVar(value=self.DEFAULT_IP)
+        ttk.Entry(form, textvariable=self.ip_var, width=18).grid(
+            row=1, column=1, sticky="we", padx=4, pady=4)
 
-        ttk.Button(btn_frame, text="Xoa log", command=self.clear_log).pack(side="left", padx=8)
+        # Port
+        ttk.Label(form, text="Port:").grid(row=1, column=2, sticky="w", padx=4)
+        self.port_var = tk.StringVar(value=self.DEFAULT_PORT)
+        ttk.Entry(form, textvariable=self.port_var, width=10).grid(
+            row=1, column=3, sticky="we", padx=4, pady=4)
 
-        self.status_var = tk.StringVar(value="San sang.")
-        ttk.Label(btn_frame, textvariable=self.status_var, foreground="#555").pack(
-            side="right"
+        # Timeout
+        ttk.Label(form, text="Timeout (s):").grid(row=2, column=0, sticky="w", padx=4)
+        self.timeout_var = tk.StringVar(value=self.DEFAULT_TIMEOUT)
+        ttk.Entry(form, textvariable=self.timeout_var, width=8).grid(
+            row=2, column=1, sticky="w", padx=4, pady=4)
+
+        # ---- Hàng nút ----
+        btns = ttk.Frame(root)
+        btns.pack(fill="x", padx=10, pady=(0, 5))
+
+        self.query_btn = tk.Button(
+            btns, text="🔍  Tra cứu", font=("Arial", 11, "bold"),
+            bg="#3498db", fg="white", activebackground="#2980b9",
+            padx=16, pady=6, relief="flat", cursor="hand2",
+            command=self.on_query
         )
+        self.query_btn.pack(side="left", padx=2)
 
-        # --- Ket qua noi bat ---
-        result_frame = ttk.LabelFrame(root, text="Ket qua")
-        result_frame.pack(fill="x", padx=8, pady=(0, 6))
-        self.result_var = tk.StringVar(value="(chua co truy van)")
-        ttk.Label(
-            result_frame, textvariable=self.result_var, font=("Consolas", 13, "bold")
-        ).pack(anchor="w", padx=8, pady=6)
+        tk.Button(
+            btns, text="🗑  Xóa log", font=("Arial", 10),
+            bg="#95a5a6", fg="white", activebackground="#7f8c8d",
+            padx=12, pady=6, relief="flat", cursor="hand2",
+            command=self.clear_log
+        ).pack(side="left", padx=2)
 
-        # --- Log ---
-        log_frame = ttk.LabelFrame(root, text="Nhat ky")
-        log_frame.pack(fill="both", expand=True, padx=8, pady=(0, 8))
+        # Status bên phải
+        self.status_var = tk.StringVar(value="Sẵn sàng")
+        self.status_lbl = tk.Label(btns, textvariable=self.status_var,
+                                    fg="#7f8c8d", font=("Arial", 10))
+        self.status_lbl.pack(side="right", padx=6)
 
-        self.log_text = tk.Text(log_frame, wrap="word", state="disabled", font=("Consolas", 10))
+        # ---- Kết quả nổi bật ----
+        res = ttk.LabelFrame(root, text="Kết quả", padding=10)
+        res.pack(fill="x", padx=10, pady=5)
+
+        self.result_var = tk.StringVar(value="(chưa có truy vấn)")
+        self.result_lbl = tk.Label(
+            res, textvariable=self.result_var,
+            font=("Consolas", 14, "bold"), fg="#7f8c8d",
+            anchor="w", justify="left"
+        )
+        self.result_lbl.pack(fill="x")
+
+        # ---- Log ----
+        logf = ttk.LabelFrame(root, text="Nhật ký", padding=6)
+        logf.pack(fill="both", expand=True, padx=10, pady=(5, 10))
+
+        self.log_text = tk.Text(
+            logf, wrap="word", state="disabled",
+            font=("Consolas", 10), bg="#1e1e1e", fg="#d4d4d4",
+            insertbackground="white"
+        )
         self.log_text.pack(side="left", fill="both", expand=True)
+        sb = ttk.Scrollbar(logf, command=self.log_text.yview)
+        sb.pack(side="right", fill="y")
+        self.log_text.configure(yscrollcommand=sb.set)
 
-        scroll = ttk.Scrollbar(log_frame, command=self.log_text.yview)
-        scroll.pack(side="right", fill="y")
-        self.log_text.configure(yscrollcommand=scroll.set)
-
-        root.bind("<Return>", lambda e: self.on_send())
+        # Bind Enter
+        root.bind("<Return>", lambda e: self.on_query())
 
     # ------------------------------------------------------------------
+    # Helper
+    # ------------------------------------------------------------------
+
     @staticmethod
-    def _set_window_to_screen_fraction(root, fraction=0.75):
-        """Dat kich thuoc cua so = ty le (fraction) man hinh chinh, can giua man hinh."""
+    def _set_window_fraction(root, fraction=0.55):
         root.update_idletasks()
-        screen_w = root.winfo_screenwidth()
-        screen_h = root.winfo_screenheight()
-        w = int(screen_w * fraction)
-        h = int(screen_h * fraction)
-        x = (screen_w - w) // 2
-        y = (screen_h - h) // 2
+        sw, sh = root.winfo_screenwidth(), root.winfo_screenheight()
+        w, h = int(sw * fraction), int(sh * fraction)
+        x, y = (sw - w) // 2, (sh - h) // 2
         root.geometry(f"{w}x{h}+{x}+{y}")
 
-    # ------------------------------------------------------------------
-    def log(self, msg: str):
+    def log(self, msg):
         ts = time.strftime("%H:%M:%S")
         self.log_text.configure(state="normal")
         self.log_text.insert("end", f"[{ts}] {msg}\n")
@@ -167,74 +208,111 @@ class DnsClientGUI:
         self.log_text.delete("1.0", "end")
         self.log_text.configure(state="disabled")
 
+    def set_status(self, text, color="#7f8c8d"):
+        self.status_var.set(text)
+        self.status_lbl.configure(fg=color)
+
     # ------------------------------------------------------------------
-    def on_send(self):
+    # Xử lý nút Tra cứu
+    # ------------------------------------------------------------------
+
+    def on_query(self):
+        # --- Validate ---
         domain = self.domain_var.get().strip()
-        server_ip = self.ip_var.get().strip()
+        ip     = self.ip_var.get().strip()
 
         if not domain:
-            messagebox.showwarning("Thieu du lieu", "Vui long nhap ten mien.")
+            messagebox.showwarning("Thiếu dữ liệu", "Vui lòng nhập tên miền.")
             return
-        if not server_ip:
-            messagebox.showwarning("Thieu du lieu", "Vui long nhap IP cua May A.")
+        if ".." in domain:
+            messagebox.showerror("Lỗi", "Tên miền không hợp lệ (có '..')")
             return
+        if not ip:
+            messagebox.showwarning("Thiếu dữ liệu", "Vui lòng nhập IP server.")
+            return
+
         try:
             port = int(self.port_var.get().strip())
+            if not (1 <= port <= 65535):
+                raise ValueError
         except ValueError:
-            messagebox.showerror("Loi", "Port khong hop le.")
+            messagebox.showerror("Lỗi", "Port không hợp lệ (1–65535).")
             return
+
         try:
             timeout = float(self.timeout_var.get().strip())
+            if timeout <= 0:
+                raise ValueError
         except ValueError:
             timeout = 3.0
 
-        self.send_btn.configure(state="disabled")
-        self.status_var.set("Dang gui...")
-        self.log(f"Gui truy van '{domain}' -> {server_ip}:{port}")
+        # --- Disable nút, chạy thread ---
+        self.query_btn.configure(state="disabled")
+        self.set_status("Đang tra cứu...", "#f39c12")
+        self.result_var.set("Đang chờ phản hồi...")
+        self.result_lbl.configure(fg="#f39c12")
+        self.log(f"Hỏi '{domain}' → {ip}:{port}")
 
         threading.Thread(
-            target=self._send_worker, args=(domain, server_ip, port, timeout), daemon=True
+            target=self._query_worker,
+            args=(domain, ip, port, timeout),
+            daemon=True
         ).start()
 
-    def _send_worker(self, domain, server_ip, port, timeout):
+    def _query_worker(self, domain, ip, port, timeout):
+        """Chạy trong thread riêng — không block GUI."""
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.settimeout(timeout)
         try:
             query = build_query(domain)
             t0 = time.time()
-            sock.sendto(query, (server_ip, port))
+            sock.sendto(query, (ip, port))
             data, _ = sock.recvfrom(512)
-            elapsed = (time.time() - t0) * 1000
+            elapsed_ms = (time.time() - t0) * 1000
 
-            ip = parse_response(data)
-            if ip:
-                self._report(True, f"{domain} -> {ip}", f"Nhan phan hoi sau {elapsed:.1f} ms: {domain} -> {ip}")
+            result = parse_response(data)
+            if result:
+                self._report_success(domain, result, elapsed_ms)
             else:
-                self._report(False, f"{domain}: khong tim thay (NXDOMAIN)", f"NXDOMAIN cho '{domain}'")
+                self._report_fail(f"NXDOMAIN — '{domain}' không tồn tại",
+                                  f"Nhận NXDOMAIN sau {elapsed_ms:.1f} ms")
         except socket.timeout:
-            self._report(False, "Timeout - khong nhan duoc phan hoi", "Loi: timeout, khong co phan hoi tu server.")
+            self._report_fail("⏱ Timeout — server không phản hồi",
+                              f"Timeout sau {timeout}s")
         except Exception as e:
-            self._report(False, f"Loi: {e}", f"Loi ngoai le: {e}")
+            self._report_fail(f"Lỗi: {e}", f"Exception: {e}")
         finally:
             sock.close()
 
-    def _report(self, ok, result_text, log_text):
+    # ------------------------------------------------------------------
+    # Báo kết quả (đẩy về main thread)
+    # ------------------------------------------------------------------
+
+    def _report_success(self, domain, ip, ms):
         def update():
-            self.result_var.set(result_text)
-            self.log(log_text)
-            self.status_var.set("Hoan tat." if ok else "That bai.")
-            self.send_btn.configure(state="normal")
+            self.result_var.set(f"✓  {domain}  →  {ip}")
+            self.result_lbl.configure(fg="#27ae60")
+            self.set_status("Thành công", "#27ae60")
+            self.log(f"Kết quả: {ip}  ({ms:.1f} ms)")
+            self.query_btn.configure(state="normal")
+        self.root.after(0, update)
+
+    def _report_fail(self, short_msg, log_msg):
+        def update():
+            self.result_var.set(f"✗  {short_msg}")
+            self.result_lbl.configure(fg="#e74c3c")
+            self.set_status("Thất bại", "#e74c3c")
+            self.log(log_msg)
+            self.query_btn.configure(state="normal")
         self.root.after(0, update)
 
 
+# ============================================================================
+# MAIN
+# ============================================================================
+
 def main():
     root = tk.Tk()
-    try:
-        style = ttk.Style()
-        if "clam" in style.theme_names():
-            style.theme_use("clam")
-    except Exception:
-        pass
     DnsClientGUI(root)
     root.mainloop()
 
